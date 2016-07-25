@@ -100,44 +100,30 @@
       m)))
 
 (defn movable-left [sel n]
-  (let [lm (left-max sel n)
-        movable (sort < (filter #(> % lm) sel))
-        not-movable (set (filter #(<= % lm) sel))]
-    [movable not-movable]))
+  (let [lm (left-max sel n)]
+    (sort < (filter #(> % lm) sel))))
 
 (defn movable-right [sel n]
-  (let [rm (right-min sel n)
-        movable (sort > (filter #(< % rm) sel))
-        not-movable (set (filter #(>= % rm) sel))]
-    [movable not-movable]))
+  (let [rm (right-min sel n)]
+    (sort > (filter #(< % rm) sel))))
 
-(defn sel-move-right [sel n]
-  (let [[movable not-movable] (movable-right sel n)]
-    (loop [sels movable sel' not-movable]
-     (if (empty? sels)
-      sel'
-      (recur (rest sels) (conj sel' (inc (first sels))))))))
+(defn move-left [{sel :sel cols :cols} n]
+  (loop [moving (movable-left sel n) cols' cols sel' sel]
+   (if (empty? moving)
+    {:cols cols' :sel sel'}
+    (recur
+      (rest moving)
+      (col-swap cols' (dec (first moving)) (first moving))
+      (conj (disj sel' (first moving)) (dec (first moving)))))))
 
-(defn sel-move-left [sel n]
-  (let [[movable not-movable] (movable-left sel n)]
-    (loop [sels movable sel' not-movable]
-     (if (empty? sels)
-      sel'
-      (recur (rest sels) (conj sel' (dec (first sels))))))))
-
-(defn col-move-left [cols sel n]
-  (let [[movable _] (movable-left sel n)]
-    (loop [sels movable cols' cols]
-     (if (empty? sels)
-      cols'
-      (recur (rest sels) (col-swap cols (dec (first sels)) (first sels)))))))
-
-(defn col-move-right [cols sel n]
-  (let [[movable _] (movable-right sel n)]
-    (loop [sels movable cols' cols]
-     (if (empty? sels)
-      cols'
-      (recur (rest sels) (col-swap cols (first sels) (inc (first sels))))))))
+(defn move-right [{sel :sel cols :cols} n]
+  (loop [moving (movable-right sel n) cols' cols sel' sel]
+   (if (empty? moving)
+    {:cols cols' :sel sel'}
+    (recur
+      (rest moving)
+      (col-swap cols' (first moving) (inc (first moving)))
+      (conj (disj sel' (first moving)) (inc (first moving)))))))
 
 (defn inc-range [a b]
   (range (min a b) (inc (max a b))))
@@ -163,14 +149,10 @@
   (fn [ev]
     (case (.-which ev)
       (72 37) ;; left
-      (let [n (count (:cols @state))]
-        ; (swap! state update-in [:sel] col-move-left (:sel @state) n)
-        (swap! state update-in [:sel] sel-move-left n))
+      (swap! state move-left (count (:cols @state)))
       
       (76 39) ;; right
-      (let [n (count (:cols @state))]
-        ; (swap! cipher-cols col-move-right (:sel @state) n)
-        (swap! state update-in [:sel] sel-move-right n))
+      (swap! state move-right (count (:cols @state)))
       
       83 ;; s
       (let [sel (:sel @state)]
