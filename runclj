@@ -1,0 +1,29 @@
+#!/bin/rc
+
+cd `{dirname $0}
+
+m2=$home/.m2/repository
+
+cp=./src
+cp=$cp:$m2/org/clojure/clojure/1.8.0/clojure-1.8.0.jar
+cp=$cp:$m2/org/clojure/clojurescript/1.9.89/clojurescript-1.9.89.jar
+cp=$cp:$m2/reagent/reagent/0.6.0-rc/reagent-0.6.0-rc.jar
+cp=$cp:$m2/org/clojure/tools.nrepl/0.2.12/tools.nrepl-0.2.12.jar
+cp=$cp:$m2/com/google/javascript/closure-compiler-externs/v20160315/closure-compiler-externs-v20160315.jar
+# cp=$cp:$m2/clojure-complete/clojure-complete/0.2.4/clojure-complete-0.2.4.jar
+# cp=$cp:$m2/args4j/args4j/2.0.26/args4j-2.0.26.jar
+cp=$cp:$m2/org/clojure/google-closure-library-third-party/0.0-20160609-f42b4a24/google-closure-library-third-party-0.0-20160609-f42b4a24.jar
+cp=$cp:$m2/org/clojure/google-closure-library/0.0-20160609-f42b4a24/google-closure-library-0.0-20160609-f42b4a24.jar
+cp=$cp:$m2/cljsjs/react-dom/15.1.0-0/react-dom-15.1.0-0.jar
+cp=$cp:$m2/com/google/javascript/closure-compiler/v20160315/closure-compiler-v20160315.jar
+# cp=$cp:$m2/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar
+cp=$cp:$m2/cljsjs/react-dom-server/15.1.0-0/react-dom-server-15.1.0-0.jar
+cp=$cp:$m2/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar
+cp=$cp:$m2/org/clojure/data.json/0.2.6/data.json-0.2.6.jar
+# cp=$cp:$m2/org/mozilla/rhino/1.7R5/rhino-1.7R5.jar
+cp=$cp:$m2/cljsjs/react/15.1.0-0/react-15.1.0-0.jar
+cp=$cp:$m2/org/clojure/tools.reader/1.0.0-beta1/tools.reader-1.0.0-beta1.jar
+# cp=$cp:$m2/com/google/guava/guava/19.0/guava-19.0.jar
+# cp=$cp:$m2/com/google/protobuf/protobuf-java/2.5.0/protobuf-java-2.5.0.jar
+
+exec rlwrap java -cp $cp clojure.main $1
