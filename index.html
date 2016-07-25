@@ -1,6 +1,10 @@
 <html>
 	<head>
 		<style type="text/css">
+
+		* {
+			box-sizing: border-box
+		}
 			
 		.transposition-solver > .column {
 			user-select: none;
@@ -12,14 +16,36 @@
 			text-align: center;
 		}
 
+		.transposition-solver > .column:nth-child(5n+1) {
+			margin-left: 0.5em;
+		}
+
 		.transposition-solver > .column > .char {
 			width: 14pt;
 			clear: both;
 		}
 
+		.transposition-solver > .column:nth-last-child(1) {
+			clear: right !important;
+		}
+
+		body, #app {
+			width: 100%;
+			text-align: center;
+			overflow-x: hidden;
+		}
+
+		.transposition-solver {
+			margin-top: 1em;
+			display: inline-block;
+		}
+
 		</style>
 	</head>
 	<body>
+		<h3>Transposition Cipher Solver</h3>
+		<p>Select columns with the mouse or the space bar. Move columns with the left and right or h and l keys. Swap two columns with the s key.</p>
+		<p>Green and red markers indicate more and less frequent bigrams in the english language.</p>
 		<div id="app"></div>
 		<script type="text/javascript" src="out/main.js"></script>
 	</body>
