@@ -5,7 +5,20 @@
 		* {
 			box-sizing: border-box
 		}
+
+		html, body {
+			margin: 0;
+		}
 			
+		body, #app {
+			width: 100%;
+			text-align: center;
+		}
+
+		.transposition-solver {
+			margin-top: 1em;
+			display: inline-block;
+		}
 		.transposition-solver > .column {
 			user-select: none;
 			-o-user-select: none;
@@ -29,15 +42,6 @@
 			clear: right !important;
 		}
 
-		body, #app {
-			width: 100%;
-			text-align: center;
-		}
-
-		.transposition-solver {
-			margin-top: 1em;
-			display: inline-block;
-		}
 
 		</style>
 	</head>
